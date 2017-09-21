@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <script src="components/loader.js"></script>
+  <script src="lib/onsenui/js/onsenui.min.js"></script>
+  <script src="sample.js"></script>
+
+  <link rel="stylesheet" href="components/loader.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    // Page init event
+//    document.addEventListener('init', function(event) {
+//      var page = event.target;
+//
+//      if (page.matches('#first-page')) {
+//
+//        page.querySelector('#push-button').onclick = function() {
+//          document.querySelector('#navigator').pushPage('Home-Page.html');
+//        };
+//
+//      } else if (page.matches('#second-page')) {
+//
+//        page.querySelector('#pop-button').onclick = function() {
+//          document.querySelector('#navigator').popPage();
+//        };
+//
+//      }
+//    });
+    
+    //Login画面のSign inボタン押下のアクション
+    var login = function() {
+      var username = document.getElementById('username').value;
+      var password = document.getElementById('password').value;
+    // loginのためのユーザー名、パスワードの取得後、以下を行う
+     // if (username === 'bob' && password === 'secret') {
+     //   document.querySelector('#navigator').pushPage('Home-Page.html');
+     // }
+     // else {
+     //   ons.notification.alert('Incorrect username or password.');
+     // }
+      MC.User.login(username, password)
+          .done(function(result)
+          {
+              document.querySelector('#navigator').pushPage('Home-Page.html')
+          })
+          .fail(function(err)
+          {
+              ons.notification.alert('Incorrect username or password.');
+          });
+    };
+    
+    //Login画面のSign inボタン押下のアクション
+    var logout = function() {
+      document.querySelector('#navigator').pushPage('Login-Page.html');
+    };
+  </script>
+</head>
+<body>
+
+  <!-- 最初のページ -->
+  <ons-navigator id="navigator" page="Login-Page.html"></ons-navigator>
+  
+  <!-- ログインページ -->
+  <template id="Login-Page.html">
+      <ons-page id="Login-Page">
+          <ons-toolbar>
+            <div class="center">Login</div>
+          </ons-toolbar>
+        
+          <!--<p style="text-align: center; margin-top: 10px;">
+            <ons-search-input placeholder="Search"></ons-search-input>
+          </p>-->
+        
+          <div style="text-align: center; margin-top: 30px;">
+            <p>
+              <ons-input id="username" modifier="underbar" placeholder="Username" float></ons-input>
+            </p>
+            <p>
+              <ons-input id="password" modifier="underbar" type="password" placeholder="Password" float></ons-input>
+            </p>
+            <p style="margin-top: 30px;">
+              <ons-button onclick="login()">Sign in</ons-button>
+            </p>
+          </div>
+      </ons-page>
+  </template>
+  
+  <!-- ホームページ -->
+  <template id="Home-Page.html">
+      <ons-page id="Home-Page">
+          <ons-toolbar>
+            <div class="center">Home</div>
+          </ons-toolbar>
+          
+          <div style="text-align: center; margin-top: 30px;">
+            <p style="margin-top: 30px;">
+              <ons-button onclick="logout()">ログアウト</ons-button>
+            </p>
+          </div>
+      </ons-page>
+  </template>
+  
+</body>
+</html>
